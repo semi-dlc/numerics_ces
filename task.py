@@ -5,6 +5,8 @@ import test2
 
 #testat1
 
+#alles nur muster. bis auf weiteres unnötig
+
 def naiv_inter(x, y, xi):
   i = 0
   print(i)
