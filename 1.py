@@ -137,4 +137,7 @@ def main():
     else:
         print ("Newton method used the least amount of time: {:.6f}" .format(min(all_time)))
     plt.show()
+    while True:
+        foo = input("Enter any key to exit")
+        return
 main()
