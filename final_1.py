@@ -132,11 +132,11 @@ def main():
     
         all_time  = [naiv_time, lagrange_time, newton_time]
         if min (all_time) == naiv_time:
-            print ("Naiv inter used the least amount of time: {:.6f} seconds" .format(min(all_time)))
+            print ("Naiv interpolation used the least amount of time: {:.6f} seconds" .format(min(all_time)))
         elif min (all_time) == lagrange_time:
-            print ("Lagrange inter used the least amount of time: {:.6f} seconds" .format(min(all_time)))
+            print ("Lagrange interpolation used the least amount of time: {:.6f} seconds" .format(min(all_time)))
         else:
-            print ("Newton method used the least amount of time: {:.6f} seconds" .format(min(all_time)))
+            print ("Newton interpolation used the least amount of time: {:.6f} seconds" .format(min(all_time)))
         print ("\n")
     plt.show()
     while(True):
