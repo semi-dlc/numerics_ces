@@ -35,11 +35,19 @@ def gaussq_tol(f,a,b,tol):
 
 
 
-def f_x_pow_10(x):
+def f_a(x):
     return pow(x,10)
 
+def f_c(x):
+    return 1/ (0.01 + pow(x,2))
+
 def main():
-    print (gaussq_n(f_x_pow_10,-1,1,5))
-    print (gaussq_n(math.sin, 0, math.pi , 7))
-    print (gaussq_tol(f_x_pow_10, -1,1, 0.000000001))
+    print (gaussq_tol(f_a, -1,1, 0.0001))
+    print (gaussq_n(f_a,-1,1,gaussq_tol(f_a, -1,1, 0.0001)))
+
+    print (gaussq_tol(math.sin, 0, math.pi , 0.0001))
+    print (gaussq_n(math.sin, 0, math.pi , gaussq_tol(math.sin, 0, math.pi , 0.0001)))
+
+    print (gaussq_tol(f_c, -2, 3, 0.0001))
+    print (gaussq_n(f_c, -2, 3 , gaussq_tol(f_c, -2, 3, 0.0001)))
 main()
