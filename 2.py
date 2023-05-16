@@ -39,12 +39,11 @@ def sumtrap_closed(f,a,b,n): #closed trapez rule. n is amount of degrees (=quadr
         
     return ret
 
-# Sum of Simpson's Rule
-# def sumsimpson_n(f, a, b, n):
-  # h = (b - a) / n
-  # x = np.linspace(a, b, n+1)
-  # integral = (h/3) * (f(a) + f(b) + 4*np.sum(f(x[1:n:2])) + 2*np.sum(f(x[2:n:2])))
-  # return integral
+def sumsimpson_n(f, a, b, n):
+    h = (b - a) / n
+    x = np.linspace(a, b, n+1)
+    integral = (h/3) * (f(a) + f(b) + 4*np.sum(f(x[1:n:2])) + 2*np.sum(f(x[2:n:2])))
+    return integral
 
 def gaussq_tol(f,a,b,tol):
     Q = [gaussq_n(f,a,b,2), gaussq_n(f,a,b,3)] #bc gaussq_n(f,a,b,0) and gaussq_n(f,a,b,0) return 0
@@ -64,6 +63,9 @@ def test_int(f,a,b,n):
 def f_a(x):
     return pow(x,10)
 
+def f_b(x):
+    return np.sin(x)
+
 def f_c(x):
     return 1/ (0.01 + pow(x,2))
 
@@ -76,16 +78,23 @@ def error(f, integral, a, b, nmax, method): #integral is value of integral from 
     print(errors)
     return errors
 
-def plotting_init(f, integral, a, b, nmax): #this is an inefficient approach maybe?
+def initialize():
+    fig, axs = plt.subplots(2,3)
+    return
 
+
+
+
+def plotting_init(f, integral, a, b, nmax, it): #this is an inefficient approach maybe?
 #Error over accuracy
-    fig, axs = plt.subplots(2,1)
-    axs[0].plot(np.arange(1,nmax+1,1), error(f, integral, a,b,nmax, gaussq_n), label = "Gauss error") 
-    axs[0].plot(np.arange(1,nmax+1,1), error(f, integral, a, b, nmax, sumtrap_closed), label = "Trapez error") 
-    axs[0].set_xlabel('Amount of quadrature points (Stützstellen)')
-    axs[0].set_ylabel('Error')
-    axs[0].set_title("Accuracy-Error plot")
-    plt.legend()
+
+    axs[0][it].plot(np.arange(1,nmax+1,1), error(f, integral, a, b, nmax, gaussq_n), label = "Gauss error") 
+    axs[0][it].plot(np.arange(1,nmax+1,1), error(f, integral, a, b, nmax, sumtrap_closed), label = "Trapez error") 
+    axs[0][it].plot(np.arange(1,nmax+1,1), error(f, integral, a, b, nmax, sumsimpson_n), label = "Simpson rule error") 
+    axs[0][it].set_xlabel('Amount of quadrature points (Stützstellen)')
+    axs[0][it].set_ylabel('Error')
+    axs[0][it].set_title("Accuracy-Error plot")
+    axs[0][it].legend()
 
 #required accuracy over error
     tol_min_exponent = -7
@@ -97,12 +106,14 @@ def plotting_init(f, integral, a, b, nmax): #this is an inefficient approach may
         y_out[i] = gaussq_tol(f, a, b, iter)
         i += 1
     print(y_out)
-    axs[1].plot(np.arange(-1 * tol_min_exponent + 1), y_out) 
-    axs[1].set_xlabel('Error (in 10^-n)')
-    axs[1].set_ylabel('Required amount of quadrature points')
-    axs[1].set_title("Error-Accuracy plot")
-    plt.show()
-    return
+    axs[1][it].plot(np.arange(-1 * tol_min_exponent + 1), y_out, label = "Stützstellen") 
+    axs[1][it].set_xlabel('Error (in 10^-n)')
+    axs[1][it].set_ylabel('Required amount of quadrature points')
+    axs[1][it].set_title("Error-Accuracy plot")
+    axs[1][it].legend()
+    if it == 2: #NUMBER OF PLOTS - 1
+        plt.show()
+    return 
 
 def plotting_tol(f, a, b, tol_min_exponent): #min_exponent: Smallest expoent, for example 10^-5 -> -5
     if tol_min_exponent > 10:
@@ -133,11 +144,17 @@ def main():
     n_in = 20
 
     tol = 0.0001
+
+
     #print (gaussq_tol(f_a, -1,1, 0.0001))
     #print (gaussq_n(f_a,-1,1,gaussq_tol(f_a, -1,1, 0.0001)))
-    test_int(f_a,-1,1,tol)
-    
-    plotting_init(f_a, int_a, -1, 1, 20)
+    #test_int(f_a,-1,1,tol)
+    fig, axs = plt.subplots(2,3)
+    plotting_init(f_a, int_a, -1, 1, 20, 0)
+     
+    plotting_init(f_b, 2, 0, math.pi, 20, 1)
+
+    plotting_init(f_c, int_c, -2, 3, 20, 2)
     #plotting_tol(f_c, -2, 3, -11)  everything for n > 7 may be under the influence of floating point arithmetic errors and difficulites in computing eigenvalues efficiently
 
     #print (gaussq_tol(math.sin, 0, math.pi , 0.0001))
@@ -147,4 +164,6 @@ def main():
     #print (gaussq_tol(f_c, -2, 3, 0.0001))
     #print (gaussq_n(f_c, -2, 3 , gaussq_tol(f_c, -2, 3, 0.0001)))
     #test_int(f_c,-2,3, tol)
+
+fig, axs = plt.subplots(2,3)
 main()
