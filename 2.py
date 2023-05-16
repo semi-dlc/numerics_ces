@@ -39,6 +39,13 @@ def sumtrap_closed(f,a,b,n): #closed trapez rule. n is amount of degrees (=quadr
         
     return ret
 
+# Sum of Simpson's Rule
+# def sumsimpson_n(f, a, b, n):
+  # h = (b - a) / n
+  # x = np.linspace(a, b, n+1)
+  # integral = (h/3) * (f(a) + f(b) + 4*np.sum(f(x[1:n:2])) + 2*np.sum(f(x[2:n:2])))
+  # return integral
+
 def gaussq_tol(f,a,b,tol):
     Q = [gaussq_n(f,a,b,2), gaussq_n(f,a,b,3)] #bc gaussq_n(f,a,b,0) and gaussq_n(f,a,b,0) return 0
     while np.abs (Q[len(Q)-1] - Q[len(Q)-2]) > tol:
