@@ -31,10 +31,10 @@ def sumtrap_closed(f,a,b,n): #closed trapez rule. n is amount of degrees (=quadr
     if n == 1:
         return midpoint_rule(f,a,b)
     width = abs(b-a)/(n-1)
-    print("width: ", width)
+   # print("width: ", width) for debug purposes
     for i in np.arange(0, b-a, width):
         add = f(a+i)*width + 0.5 * width * (f(a+i+width) - f(a+i))
-       # print(add, a+i, f(a+i), f(a+i+width))
+       # print(add, a+i, f(a+i), f(a+i+width)) for debug purposes
         ret += add
         
     return ret
@@ -51,7 +51,7 @@ def gaussq_tol(f,a,b,tol):
         Q.append(gaussq_n(f,a,b,len(Q)))
     return len(Q)
 
-def test_int(f,a,b,n):
+def test_int(f,a,b,n): #this isn't currently being used in our script. There is no need for it atm, but it was useful when developing.
     print("Gauss {%f}", gaussq_n(f,a,b,gaussq_tol(f,a,b,n)))
     print("Degree was {%u}", gaussq_tol(f, a,b, n))
     #print("midpoint rule {%f}",  midpoint_rule(f, a, b))
@@ -67,7 +67,7 @@ def f_b(x):
     return np.sin(x)
 
 def f_c(x):
-    return 1/ (0.01 + pow(x,2))
+    return 1/ (0.01 + pow(x,2)) 
 
 
 def error(f, integral, a, b, nmax, method): #integral is value of integral from  a to b
