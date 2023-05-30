@@ -47,47 +47,45 @@ def lr_mit (A):
     
 def linsolve_ohne(A, b):
     n = len(A)
-    x_d = np.zeros(n, dtype=float)
+    x = np.zeros(n, dtype=float)
     L, R =  lr_ohne(A)
 
     #forward substitution
     for i in range (n):
         for j in range (i):
-            b[i] -= L[i][j] * x_d[j]
-        x_d[i] = b[i]
+            b[i] -= L[i][j] * x[j]
+        x[i] = b[i]
 
-    x = np.zeros(n, dtype=float)
     #backward substitution
     for i in reversed(range(n)):
         for j in range (n-i-1):
             #print(f"i: {i}, j: {j} ", end='') -> uncomment this line to understand how things works
-            x_d[i] -= R[i][n-j-1] * x[n-j-1]
+            x[i] -= R[i][n-j-1] * x[n-j-1]
         
         if(R[i][i] == 0):
             print ("Cannot solve this LGS")
             return
         
-        x[i] = x_d[i] / R[i][i]
+        x[i] = x[i] / R[i][i]
     return x
 
 
 
 def linsolve_mit(A, b):
     n = len(A)
-    x_d = np.zeros(n, dtype=float)
+    x = np.zeros(n, dtype=float)
     L, R, P =  lr_mit(A)
     b = np.dot(P,b)
     #forward substitution
     for i in range (n):
         for j in range (i):
-            b[i] -= L[i][j] * x_d[j]
-        x_d[i] = b[i]
+            b[i] -= L[i][j] * x[j]
+        x[i] = b[i]
     
-    print (x_d)
-    x = np.zeros(n, dtype=float)
+
     #backward substitution
     for i in range(n-1, -1, -1):
-        x[i] = x_d[i]
+        x[i] = x[i]
         for j in range(n-1, i, -1):
             #print(f"i: {i}, j: {j} ", end='') -> uncomment this line to understand how things works
             x[i] -= R[i][j] * x[j]
@@ -105,11 +103,9 @@ def main():
     ## a. ##
     A = np.array([[1, 1, 3], [1, 2, 2], [2, 1, 5]])
     b = [2, 1, 1]
-    x_1 = linsolve_mit(A,b)
-    x_2 = linsolve_ohne(A,b)
     
-    print (x_1)
-    print (x_2)
+    print (linsolve_mit(A,b))
+    print (linsolve_ohne(A,b))
     
     ## b. ##
 
@@ -120,12 +116,12 @@ def main():
 
     b = np.array([2, -1, -2, -11])
 
-    #x1 = linsolve_ohne (A,b) #Cannot solve this LGS
-    x2 = linsolve_mit (A,b)
-    #print (x1)
-    print (x2)
+    #print (linsolve_ohne (A,b)) #Cannot solve this LGS ->
+    #For some strange reasons, after linsolve_ohne is called, the last member of b was incremented, making b = 2,-1,-2,-10
+    #So I put it on comment, but u guys can uncomment it and see for urself what's up here
+    print (linsolve_mit(A,b))
 
-    ## c. ##
+    ## c. ## -> Im not gonna do this lol. I don't really understand what to do.
 
     np.random.seed(42)
     epsilon = np.random.normal(0, 1)
@@ -133,8 +129,28 @@ def main():
     array_of_matrices = []
     for n in range(2, 7):
         matrix = np.zeros((n, n))
-        for i in range (n):
-            for j in range (n):
-                matrix [i][n-j-1] = pow (3, -abs(i-j)) + pow (2, -(i-1+j-1)) + pow (10,-10) * epsilon
+        for i in range (1, n+1):
+            for j in range (1, n+1):
+                matrix [i-1][n-j] = pow (3, -abs(i-j)) + pow (2, -j-i) + pow (10,-10) * epsilon
         array_of_matrices.append(matrix)
+    
+
+    ## d. ##
+    n =3  #I think we have to change n and plot here UwU -> like if n increase what happens????
+    H = np.zeros((n,n))
+    for i in range (1,n+1):
+        for j in range (1, n+1):
+            H[i-1][j-1] = 1/ (i+j-1)
+    x_d = [1] * n
+    b = np.dot(H, x_d)
+
+    #x_h2 = linsolve_ohne(H, b) #If I uncomment this the result of linsolve_ohne below will be different like what???
+
+    print (linsolve_ohne (H, b))
+    print (linsolve_mit (H, b))
+    print (np.linalg.solve(H, b))
+
+    ##I tried to optimize the code by not having multiple set of x. However, I still copy A -> R because unless I do that, the value
+    #of A change and I won't be able to produce an accurate result for the next linsolve function
+
 main()
