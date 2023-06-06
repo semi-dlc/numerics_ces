@@ -27,11 +27,17 @@ def lr_mit (A):
     for i in range(0, n-1):
         column_values = R[i:, i]  # Get the values in the specified column
         max_row_index = np.argmax(column_values)  # Find the index of the maximum value
+        if (abs(R[np.argmin(column_values)][i]) > R[np.argmax(column_values)][i]): #find index of absolute value
+            max_row_index = np.argmin(column_values)
 
         #this is to prevent the case where max_row_index is 0 (when there's no max, np.argmax returns 0)
         if max_row_index < i:
             max_row_index = i
 
+       ### print("Maximalspaltenindex")
+       ### print(max_row_index)
+        ###print("von spalte")
+       ### print(column_values)
         #Row swap
         R[[i, max_row_index]] = R[[max_row_index, i]]
         L[[i, max_row_index], :i] = L[[max_row_index, i], :i]
@@ -102,8 +108,10 @@ def main():
 
     ## a. ##
     A = np.array([[1, 1, 3], [1, 2, 2], [2, 1, 5]])
+    AA = np.array([[-11, 1, 3], [-2, -22, 2], [2, 1, -5]])
     b = [2, 1, 1]
     
+    print (linsolve_mit(AA,b))
     print (linsolve_mit(A,b))
     print (linsolve_ohne(A,b))
     
@@ -146,9 +154,9 @@ def main():
 
     #x_h2 = linsolve_ohne(H, b) #If I uncomment this the result of linsolve_ohne below will be different like what???
 
-    print (linsolve_ohne (H, b))
-    print (linsolve_mit (H, b))
-    print (np.linalg.solve(H, b))
+    #print (linsolve_ohne (H, b))
+    #print (linsolve_mit (H, b))
+    #print (np.linalg.solve(H, b))
 
     ##I tried to optimize the code by not having multiple set of x. However, I still copy A -> R because unless I do that, the value
     #of A change and I won't be able to produce an accurate result for the next linsolve function
