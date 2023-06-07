@@ -1,4 +1,5 @@
 import numpy as np
+import math
 
 def lr_ohne(A):
     n = len(A)
@@ -104,6 +105,13 @@ def linsolve_mit(A, b):
 
     return x
 
+def error_rel(v1, v2):
+    if (len(v1) != len(v2)):
+        print("Sizes don't match. Comparison is not possible")
+        return math.inf
+    return pow(np.linalg.norm(v1-v2),2)/pow(np.linalg.norm(v1), 2)
+    
+
 def main():
 
     ## a. ##
@@ -133,32 +141,55 @@ def main():
     ## c. ## -> Im not gonna do this lol. I don't really understand what to do.
 
     np.random.seed(42)
-    epsilon = np.random.normal(0, 1)
+    
 
     array_of_matrices = []
-    for n in range(2, 7):
+    array_of_vectors = []
+    for n in range(2, 8):
         matrix = np.zeros((n, n))
         for i in range (1, n+1):
             for j in range (1, n+1):
-                matrix [i-1][n-j] = pow (3, -abs(i-j)) + pow (2, -j-i) + pow (10,-10) * epsilon
+                epsilon = np.random.normal(0, 1)
+                matrix [i-1][n-j] = pow (3, -abs(i-j)) + pow (2, -j-i) + pow (10,-10) * epsilon 
+        #print(matrix)
+        x = np.ones(n)
+        array_of_vectors.append(np.matmul(matrix, x))
+        #print(np.matmul(matrix, x))
         array_of_matrices.append(matrix)
-    
+
+    print("Solving : ")
+    array_errors = np.zeros(len(array_of_matrices))
+
+    for i in range(len(array_of_matrices)): # Solution should be ones(i)
+        print("Size " + str(i+2))
+        #print("Pivot")
+        #print(linsolve_mit(array_of_matrices[i], array_of_vectors[i]))
+        #print("non-Pivot")
+        #print(linsolve_ohne(array_of_matrices[i], array_of_vectors[i]))
+        print("Error non-pivot")
+        print(error_rel(linsolve_ohne(array_of_matrices[i], array_of_vectors[i]), np.linalg.solve(array_of_matrices[i], array_of_vectors[i])))
+        print("Error pivot")
+        print(error_rel(linsolve_mit(array_of_matrices[i], array_of_vectors[i]), np.linalg.solve(array_of_matrices[i], array_of_vectors[i])))
+
 
     ## d. ##
-    n =3  #I think we have to change n and plot here UwU -> like if n increase what happens????
-    H = np.zeros((n,n))
-    for i in range(1, n + 1):
-        for j in range(1, n + 1):
-            H[i-1][j-1] = 1 / (i + j - 1)
+    nstart = 3  #I think we have to change n and plot here UwU -> like if n increase what happens????
+    nstop = 6
+    for n in range(nstart, nstop + 1) :   
+        print("Hilbert matrix with " + str(n) + " size")
+        H = np.zeros((n,n))
+        for i in range(1, n + 1):
+            for j in range(1, n + 1):
+                H[i-1][j-1] = 1 / (i + j - 1)
 
-    x_d = np.ones(n)
-    b = np.dot(H, x_d)
+        x_d = np.ones(n)
+        b = np.dot(H, x_d)
 
     #x_h2 = linsolve_ohne(H, b) #If I uncomment this the result of linsolve_ohne below will be different like what???
 
-    print (np.linalg.solve(H, b))
-    print (linsolve_ohne (H, b))
-    print (linsolve_mit (H, b))
+        print (np.linalg.solve(H, b))
+        print (linsolve_ohne (H, b))
+        print (linsolve_mit (H, b))
     
     ##I tried to optimize the code by not having multiple set of x. However, I still copy A -> R because unless I do that, the value
     #of A change and I won't be able to produce an accurate result for the next linsolve function
