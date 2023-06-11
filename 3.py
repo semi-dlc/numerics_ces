@@ -1,5 +1,6 @@
 import numpy as np
 import math
+import matplotlib.pyplot as plt
 
 def lr_ohne(A):
     n = len(A)
@@ -16,8 +17,6 @@ def lr_ohne(A):
             L[j][i] = l
             R[j] = R[j] - l*R[i]
     return L, R
-
-
 
 def lr_mit (A):
     n = len(A)
@@ -109,7 +108,8 @@ def error_rel(v1, v2):
     if (len(v1) != len(v2)):
         print("Sizes don't match. Comparison is not possible")
         return math.inf
-    return pow(np.linalg.norm(v1-v2),2)/pow(np.linalg.norm(v1), 2)
+    ret = pow(np.linalg.norm(v1-v2),2)/pow(np.linalg.norm(v1), 2)
+    return ret
     
 
 def main():
@@ -145,12 +145,17 @@ def main():
 
     array_of_matrices = []
     array_of_vectors = []
-    for n in range(2, 8):
+    array_of_errors_ohne = []
+    array_of_errors_mit = []
+    nstart = 2
+    nend = 7
+    epsilon_strength = -10
+    for n in range(nstart, nend):
         matrix = np.zeros((n, n))
         for i in range (1, n+1):
             for j in range (1, n+1):
                 epsilon = np.random.normal(0, 1)
-                matrix [i-1][n-j] = pow (3, -abs(i-j)) + pow (2, -j-i) + pow (10,-10) * epsilon 
+                matrix [i-1][n-j] = pow (3, -abs(i-j)) + pow (2, -j-i) + pow (10,epsilon_strength) * epsilon 
         #print(matrix)
         x = np.ones(n)
         array_of_vectors.append(np.matmul(matrix, x))
@@ -158,25 +163,63 @@ def main():
         array_of_matrices.append(matrix)
 
     print("Solving : ")
-    array_errors = np.zeros(len(array_of_matrices))
-
-    for i in range(len(array_of_matrices)): # Solution should be ones(i)
+    fig1, axs1 = plt.subplots(3, 1)    
+    
+    for i in range(len(array_of_matrices)): # Solution should be very close to ones(i)
+        sol = np.ones(i+2)
         print("Size " + str(i+2))
-        #print("Pivot")
-        #print(linsolve_mit(array_of_matrices[i], array_of_vectors[i]))
-        #print("non-Pivot")
-        #print(linsolve_ohne(array_of_matrices[i], array_of_vectors[i]))
-        print("Error non-pivot")
-        print(error_rel(linsolve_ohne(array_of_matrices[i], array_of_vectors[i]), np.linalg.solve(array_of_matrices[i], array_of_vectors[i])))
-        print("Error pivot")
-        print(error_rel(linsolve_mit(array_of_matrices[i], array_of_vectors[i]), np.linalg.solve(array_of_matrices[i], array_of_vectors[i])))
+        print("Pivot")
+        print(linsolve_mit(array_of_matrices[i], array_of_vectors[i]))
+        print("non-Pivot")
+        print(linsolve_ohne(array_of_matrices[i], array_of_vectors[i]))
+        print("numpy")
+        print(np.linalg.solve(array_of_matrices[i], array_of_vectors[i])) #this is slightly inaccurate
 
+        #one more variable for better readablity and ensuring that one line of code is able to fit into one line of IDE
+
+        error_temp = 0
+        print("Error non-pivot")
+        error_temp = error_rel(linsolve_ohne(array_of_matrices[i], array_of_vectors[i]), np.linalg.solve(array_of_matrices[i], array_of_vectors[i]))
+        array_of_errors_ohne.append(error_temp)
+        print(error_temp)
+
+        print("Error pivot")
+        error_temp = error_rel(linsolve_mit(array_of_matrices[i], array_of_vectors[i]), np.linalg.solve(array_of_matrices[i], array_of_vectors[i]))
+        array_of_errors_mit.append(error_temp)
+        print(error_temp)
+
+    #plot part
+    axs1[0].plot(np.arange(nstart, nend), array_of_errors_ohne, 'r-o', label = "Error without pivot")
+    axs1[0].set_xlabel('Size of matrix')
+    axs1[0].set_ylabel('Error')
+    axs1[0].set_title("Error without pivot")
+
+    axs1[1].plot(np.arange(nstart, nend ), array_of_errors_mit, 'g-o', label = "Error with pivot")
+    axs1[1].set_xlabel('Size of matrix')
+    axs1[1].set_ylabel('Error')
+    axs1[1].set_title("Error with pivot")
+
+    axs1[2].plot(np.arange(nstart, nend ), array_of_errors_ohne, 'r-o', label = "non-pivot")
+    axs1[2].plot(np.arange(nstart, nend ), array_of_errors_mit, 'g-o', label = "pivot")
+    axs1[2].set_ylabel('Error')
+    axs1[2].set_xlabel('Size of matrix')
+    axs1[2].legend()
+    axs1[2].set_title("Errors compared to each other")
+
+    fig1.set_size_inches(12, 18)
+
+    plt.draw()
+
+
+        
+        
 
     ## d. ##
-    nstart = 3  #I think we have to change n and plot here UwU -> like if n increase what happens????
-    nstop = 6
-    for n in range(nstart, nstop + 1) :   
-        print("Hilbert matrix with " + str(n) + " size")
+    nstart = 3  
+    nend = 10
+    array_of_errors_ohne_h = []
+    array_of_errors_mit_h = []
+    for n in range(nstart, nend + 1) :   
         H = np.zeros((n,n))
         for i in range(1, n + 1):
             for j in range(1, n + 1):
@@ -187,11 +230,45 @@ def main():
 
     #x_h2 = linsolve_ohne(H, b) #If I uncomment this the result of linsolve_ohne below will be different like what???
 
-        print (np.linalg.solve(H, b))
-        print (linsolve_ohne (H, b))
-        print (linsolve_mit (H, b))
+        #print (np.linalg.solve(H, b))
+        #print (linsolve_ohne (H, b))
+        #print (linsolve_mit (H, b))
+        error_temp = 0
+
+        error_temp = error_rel(linsolve_ohne(H, b), np.ones(n))
+        array_of_errors_ohne_h.append(error_temp)
+       
+
+        error_temp = error_rel(linsolve_mit(H, b), np.ones(n))
+        array_of_errors_mit_h.append(error_temp)
+
+    fig2, axs2 = plt.subplots(3, 1)    
+    #plot part
+    axs2[0].plot(np.arange(nstart, nend+1), array_of_errors_ohne_h, 'r-o', label = "Error without pivot")
+    axs2[0].set_xlabel('Size of hilbert matrix')
+    axs2[0].set_ylabel('Error')
+    axs2[0].set_title("Error without pivot")
+
+    axs2[1].plot(np.arange(nstart, nend+1 ), array_of_errors_mit_h, 'g-o', label = "Error with pivot")
+    axs2[1].set_xlabel('Size of hilbert matrix')
+    axs2[1].set_ylabel('Error')
+    axs2[1].set_title("Error with pivot")
+
+    axs2[2].plot(np.arange(nstart, nend+1 ), array_of_errors_ohne_h, 'r-o', label = "non-pivot")
+    axs2[2].plot(np.arange(nstart, nend+1), array_of_errors_mit_h, 'g-o', label = "pivot")
+    axs2[2].set_ylabel('Error')
+    axs2[2].set_xlabel('Size of hilbert matrix')
+    axs2[2].legend()
+
+    axs2[2].set_title("Errors compared to each other")
+
+    fig2.set_size_inches(12, 18)        
+
+    #interestingly enough, pivotization and nonpivotization return same error margins.
+
     
     ##I tried to optimize the code by not having multiple set of x. However, I still copy A -> R because unless I do that, the value
     #of A change and I won't be able to produce an accurate result for the next linsolve function
+    plt.show()
 
 main()
