@@ -104,7 +104,7 @@ def linsolve_mit(A, b):
 
     return x
 
-def error_rel(v1, v2):
+def error_rel(v1, v2): #norm and pow may be subject to rounding errors
     if (len(v1) != len(v2)):
         print("Sizes don't match. Comparison is not possible")
         return math.inf
@@ -173,7 +173,7 @@ def main():
         print("non-Pivot")
         print(linsolve_ohne(array_of_matrices[i], array_of_vectors[i]))
         print("numpy")
-        print(np.linalg.solve(array_of_matrices[i], array_of_vectors[i])) #this is slightly inaccurate
+        print(np.linalg.solve(array_of_matrices[i], array_of_vectors[i])) #could this be slightly inaccurate?
 
         #one more variable for better readablity and ensuring that one line of code is able to fit into one line of IDE
 
@@ -205,14 +205,8 @@ def main():
     axs1[2].set_xlabel('Size of matrix')
     axs1[2].legend()
     axs1[2].set_title("Errors compared to each other")
-
     fig1.set_size_inches(12, 18)
-
-    plt.draw()
-
-
-        
-        
+    plt.draw() 
 
     ## d. ##
     nstart = 3  
@@ -244,12 +238,12 @@ def main():
 
     fig2, axs2 = plt.subplots(3, 1)    
     #plot part
-    axs2[0].plot(np.arange(nstart, nend+1), array_of_errors_ohne_h, 'r-o', label = "Error without pivot")
+    axs2[0].plot(np.arange(nstart, nend+1), array_of_errors_ohne_h, 'r-o', label = "Error without pivoting")
     axs2[0].set_xlabel('Size of hilbert matrix')
     axs2[0].set_ylabel('Error')
-    axs2[0].set_title("Error without pivot")
+    axs2[0].set_title("Error without pivoting")
 
-    axs2[1].plot(np.arange(nstart, nend+1 ), array_of_errors_mit_h, 'g-o', label = "Error with pivot")
+    axs2[1].plot(np.arange(nstart, nend+1 ), array_of_errors_mit_h, 'g-o', label = "Error with pivoting")
     axs2[1].set_xlabel('Size of hilbert matrix')
     axs2[1].set_ylabel('Error')
     axs2[1].set_title("Error with pivot")
@@ -265,10 +259,10 @@ def main():
     fig2.set_size_inches(12, 18)        
 
     #interestingly enough, pivotization and nonpivotization return same error margins.
-
+    #this is because of the nature of the hilbert matrix, where the biggest value is a11.
     
-    ##I tried to optimize the code by not having multiple set of x. However, I still copy A -> R because unless I do that, the value
-    #of A change and I won't be able to produce an accurate result for the next linsolve function
+    ##warisa tried to optimize the code by not having multiple set of x. However, warisa still copy A -> R because unless I do that, the value
+    #of A change and warisa won't be able to produce an accurate result for the next linsolve function
     plt.show()
 
 main()
