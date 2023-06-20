@@ -6,7 +6,6 @@ def lr_ohne(A):
     n = len(A)
     L = np.eye(n, dtype=float)
     R = np.copy(A).astype(float)
-    P = np.eye(n)
     
     for i in range(0, n-1):
         for j in range(i+1, n):
