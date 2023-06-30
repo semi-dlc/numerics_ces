@@ -19,6 +19,21 @@ def f4 (x):
 def Df4(x):
     return 4*x**3-10*x
 
+def gj(z, j):
+    return z**j - 1
+
+def zkj(j, k):
+    theta = 2 * np.pi * k / j
+    z = complex(np.cos(theta), np.sin(theta))
+    result = gj(z, j)
+    return np.real(result), np.imag(result)
+
+## TBD: partial derivative of gj
+    #We need to first analyze how this works.
+    #I don't really understand much. But we can use binomial coeff and try to write this down on paper first.
+## TBD: Jacobian matrix of f5,j
+    
+
 def error (x1, x0):
     return np.linalg.norm(x1-x0, ord=2)
 
@@ -78,7 +93,7 @@ def main():
     print(x4)
     print (it4)
 
-    plt.plot(x4, it4, color='blue', label='Other')
+    plt.plot(x4, it4, color='blue', label='x0 from [-2.5,2.5]')
     #[-2.5,-2] converges to -2: black
     plt.plot(x4[(x4 >= -2.5) & (x4 <= -2)], it4[(x4 >= -2.5) & (x4 <= -2)], color='black', label='x0 from [-2.5,-2]')
     #[-1.1, -0.9] converges to -1: red
@@ -92,6 +107,11 @@ def main():
     plt.title('Newton Iterations')
     plt.legend()
     plt.show()
+
+    #Yes it's beautiful
+    # The problem with this is that, plot tries to connect the dot and the blue line doesn't make much sense.
+
+main()
 
     # This is so beautiful guys ToT. Lmao, FOR REAL WITH ALL THESE COMMENTS AND PPL STILL SAY I USE CHATGPT.
 
