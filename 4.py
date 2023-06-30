@@ -110,9 +110,12 @@ def main():
 
     #Yes it's beautiful
     # The problem with this is that, plot tries to connect the dot and the blue line doesn't make much sense.
-
+    #give me 15 minutes
 main()
+    #@warisa: take it as a comment,stupid.
+    # This is so beautiful guys ToT. Lmao, FOR REAL WITH ALL THESE COMMENTS AND PPL STILL SAY I USE CHATGPT. 
+#do you know that fractals can have non-integer dimension values? why do drugs when you can look at mandelbrotmengen
 
-    # This is so beautiful guys ToT. Lmao, FOR REAL WITH ALL THESE COMMENTS AND PPL STILL SAY I USE CHATGPT.
+
 
 main()
