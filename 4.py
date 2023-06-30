@@ -93,15 +93,15 @@ def main():
     print(x4)
     print (it4)
 
-    plt.plot(x4, it4, color='blue', label='x0 from [-2.5,2.5]')
+    plt.plot(x4, it4, 'b.', label='x0 from [-2.5,2.5]')
     #[-2.5,-2] converges to -2: black
-    plt.plot(x4[(x4 >= -2.5) & (x4 <= -2)], it4[(x4 >= -2.5) & (x4 <= -2)], color='black', label='x0 from [-2.5,-2]')
+    plt.plot(x4[(x4 >= -2.5) & (x4 <= -2)], it4[(x4 >= -2.5) & (x4 <= -2)], 'k.', label='x0 from [-2.5,-2]')
     #[-1.1, -0.9] converges to -1: red
-    plt.plot(x4[(x4 >= -1.1) & (x4 <= -0.9)], it4[(x4 >= -1.1) & (x4 <= -0.9)], color='red', label='x0 from [-1.1, -0.9]')
+    plt.plot(x4[(x4 >= -1.1) & (x4 <= -0.9)], it4[(x4 >= -1.1) & (x4 <= -0.9)], 'r.', label='x0 from [-1.1, -0.9]')
     #[0.9, 1.1] converges to -1: green
-    plt.plot(x4[(x4 >= 0.9) & (x4 <= 1.1)], it4[(x4 >= 0.9) & (x4 <= 1.1)], color='green', label='x0 from [0.9, 1.1]')
-    #[2,2.5] converges to 2: orange
-    plt.plot(x4[(x4 >= 2) & (x4 <= 2.5)], it4[(x4 >= 2) & (x4 <= 2.5)], color='orange', label='x0 from [2,2.5]')
+    plt.plot(x4[(x4 >= 0.9) & (x4 <= 1.1)], it4[(x4 >= 0.9) & (x4 <= 1.1)], 'g.', label='x0 from [0.9, 1.1]')
+    #[2,2.5] converges to 2: yellow
+    plt.plot(x4[(x4 >= 2) & (x4 <= 2.5)], it4[(x4 >= 2) & (x4 <= 2.5)], 'y.', label='x0 from [2,2.5]')
     plt.xlabel('x0')
     plt.ylabel('iterations')
     plt.title('Newton Iterations')
