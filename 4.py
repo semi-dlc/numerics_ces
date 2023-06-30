@@ -19,7 +19,7 @@ def f4 (x):
 def Df4(x):
     return 4*x**3-10*x
 
-def gj(z, j):
+def gj(z, j): #z is a r2 vector here
     return z**j - 1
 
 def zkj(j, k):
@@ -93,7 +93,8 @@ def main():
     print(x4)
     print (it4)
 
-    plt.plot(x4, it4, 'b.', label='x0 from [-2.5,2.5]')
+    #blue
+    plt.plot(x4, it4, 'b:', label='x0 from [-2.5,2.5]')
     #[-2.5,-2] converges to -2: black
     plt.plot(x4[(x4 >= -2.5) & (x4 <= -2)], it4[(x4 >= -2.5) & (x4 <= -2)], 'k.', label='x0 from [-2.5,-2]')
     #[-1.1, -0.9] converges to -1: red
@@ -111,7 +112,7 @@ def main():
     #Yes it's beautiful
     # The problem with this is that, plot tries to connect the dot and the blue line doesn't make much sense.
     #give me 15 minutes
-main()
+
     #@warisa: take it as a comment,stupid.
     # This is so beautiful guys ToT. Lmao, FOR REAL WITH ALL THESE COMMENTS AND PPL STILL SAY I USE CHATGPT. 
 #do you know that fractals can have non-integer dimension values? why do drugs when you can look at mandelbrotmengen
