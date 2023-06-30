@@ -19,7 +19,7 @@ def f4 (x):
 def Df4(x):
     return 4*x**3-10*x
 
-def gj(z, j): #z is a r2 vector here
+def gj(z, j):
     return z**j - 1
 
 def zkj(j, k):
@@ -30,7 +30,7 @@ def zkj(j, k):
 
 ## TBD: partial derivative of gj
     #We need to first analyze how this works.
-    #I don't really understand much. But we can use binomial coeff and try to write this down on paper first.
+    #Ok now I know. Thx...
 ## TBD: Jacobian matrix of f5,j
     
 
@@ -83,7 +83,7 @@ def main():
 
     ## b.) ##
     ## generate 1000 in [-2.5, 2.5]
-    n = 1000
+    n = 1000000
     x4_0 = np.linspace(-2.5, 2.5, n)
     x4 = np.zeros_like(x4_0)
     it4 = np.zeros_like(x4_0)
@@ -93,29 +93,29 @@ def main():
     print(x4)
     print (it4)
 
-    #blue
-    plt.plot(x4, it4, 'b:', label='x0 from [-2.5,2.5]')
+    plt.plot(x4_0, it4, 'b.', label='x0 from [-2.5,2.5]')
     #[-2.5,-2] converges to -2: black
-    plt.plot(x4[(x4 >= -2.5) & (x4 <= -2)], it4[(x4 >= -2.5) & (x4 <= -2)], 'k.', label='x0 from [-2.5,-2]')
+    plt.plot(x4_0[(x4_0 >= -2.5) & (x4_0 <= -2)], it4[(x4_0 >= -2.5) & (x4_0 <= -2)], 'k.', label='x0 from [-2.5,-2]')
     #[-1.1, -0.9] converges to -1: red
-    plt.plot(x4[(x4 >= -1.1) & (x4 <= -0.9)], it4[(x4 >= -1.1) & (x4 <= -0.9)], 'r.', label='x0 from [-1.1, -0.9]')
+    plt.plot(x4[(x4_0 >= -1.1) & (x4_0 <= -0.9)], it4[(x4_0 >= -1.1) & (x4_0 <= -0.9)], 'r.', label='x0 from [-1.1, -0.9]')
     #[0.9, 1.1] converges to -1: green
-    plt.plot(x4[(x4 >= 0.9) & (x4 <= 1.1)], it4[(x4 >= 0.9) & (x4 <= 1.1)], 'g.', label='x0 from [0.9, 1.1]')
+    plt.plot(x4[(x4_0 >= 0.9) & (x4_0 <= 1.1)], it4[(x4_0 >= 0.9) & (x4_0 <= 1.1)], 'g.', label='x0 from [0.9, 1.1]')
     #[2,2.5] converges to 2: yellow
-    plt.plot(x4[(x4 >= 2) & (x4 <= 2.5)], it4[(x4 >= 2) & (x4 <= 2.5)], 'y.', label='x0 from [2,2.5]')
+    plt.plot(x4[(x4_0 >= 2) & (x4_0 <= 2.5)], it4[(x4_0 >= 2) & (x4_0 <= 2.5)], 'y.', label='x0 from [2,2.5]')
     plt.xlabel('x0')
     plt.ylabel('iterations')
     plt.title('Newton Iterations')
     plt.legend()
     plt.show()
 
-    #Yes it's beautiful
-    # The problem with this is that, plot tries to connect the dot and the blue line doesn't make much sense.
-    #give me 15 minutes
-
-    #@warisa: take it as a comment,stupid.
+    # Not a fatphobic here but the dot is too thick. Makes the small intervall plotted dots look confusing.
+    #15 mins given
+    
+main()
+    #@warisa: take it as a comment,stupid
+    #@dino: compliment, you mean. Like how Icode so well :P
     # This is so beautiful guys ToT. Lmao, FOR REAL WITH ALL THESE COMMENTS AND PPL STILL SAY I USE CHATGPT. 
-#do you know that fractals can have non-integer dimension values? why do drugs when you can look at mandelbrotmengen
+#do you know that fractals can have non-integer dimension values? why do drugs when you can look at mandelbrotmengen. Like a big nerd we r :)
 
 
 
