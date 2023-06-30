@@ -108,7 +108,7 @@ def main():
     plt.legend()
     plt.show()
 
-    # Not a fatphobic here but the dot is too thick. Makes the small intervall plotted dots look confusing.
+    # Not a fatphobic here but the dot is too thick.
     #15 mins given
     
 main()
