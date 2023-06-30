@@ -83,7 +83,7 @@ def main():
 
     ## b.) ##
     ## generate 1000 in [-2.5, 2.5]
-    n = 100000000
+    n = 1000000
     x4_0 = np.linspace(-2.5, 2.5, n)
     x4 = np.zeros_like(x4_0)
     it4 = np.zeros_like(x4_0)
