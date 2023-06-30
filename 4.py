@@ -1,4 +1,5 @@
 import numpy as np
+import matplotlib.pyplot as plt
 
 def f1(x):
     fx1 = x[0]**2 + x[1]**2 - 1
@@ -12,8 +13,17 @@ def Df1 (x):
     Df2y = x[0]
     return np.array([[Df1x, Df1y], [Df2x, Df2y]])
 
+def f4 (x):
+    return (x**2 - 4) * (x**2 - 1)
+
+def Df4(x):
+    return 4*x**3-10*x
+
 def error (x1, x0):
     return np.linalg.norm(x1-x0, ord=2)
+
+def error_1D (x1,x0):
+    return np.abs(x1 - x0)
 
 ## to do for fun.. (?) do a function that is a map -> so Df can be a function applicable to all functions from f1-f3
 ## right now newton works fine
@@ -21,6 +31,7 @@ def error (x1, x0):
 
 
 def newton (x0, f, Df, tol, itmax, x = []):
+    x = []
     x.append(x0)
     x_new  = x[0] - np.linalg.inv(Df(x[0])).dot(f(x[0]))
     x.append(x_new)
@@ -29,14 +40,59 @@ def newton (x0, f, Df, tol, itmax, x = []):
         x_new  = x[itmax+1] - np.linalg.inv(Df(x[itmax+1])).dot(f(x[itmax+1]))
         x.append(x_new)
         itmax += 1
-
     return x[itmax], itmax
 
-def main():
-    x0 = np.array ([1,2])
+## to be implemented to just be in newton()
+def newton_1D(x0, f, Df, tol, it_max, x=[]):
+    x = []
+    x.append(x0)
+    x_new = x[0] - f(x[0]) / Df(x[0])
+    x.append(x_new)
     itmax = 0
-    x, itmax = newton(x0, f1, Df1, 0.0000000000001, itmax)
-    print (x)
+    while error_1D(x[itmax+1], x[itmax]) > tol * abs(x[itmax]):
+        x_new = x[itmax+1] - f(x[itmax+1]) / Df(x[itmax+1])
+        x.append(x_new)
+        itmax += 1
+    return x[itmax], itmax
+
+
+def main():
+    ## partially a.) ##
+    ## TBD !! ##
+    x1_0 = np.array ([1,2])
+    itmax = 2
+    x1, itmax = newton(x1_0, f1, Df1, 0.0000000000001, itmax)
+    print (x1)
     print (itmax)
+
+
+    ## b.) ##
+    ## generate 1000 in [-2.5, 2.5]
+    n = 1000
+    x4_0 = np.linspace(-2.5, 2.5, n)
+    x4 = np.zeros_like(x4_0)
+    it4 = np.zeros_like(x4_0)
+    for i in range (0,n):
+        x4[i], it4[i] = newton_1D(x4_0[i], f4, Df4, 0.00000001, it4[i])
+    
+    print(x4)
+    print (it4)
+
+    plt.plot(x4, it4, color='blue', label='Other')
+    #[-2.5,-2] converges to -2: black
+    plt.plot(x4[(x4 >= -2.5) & (x4 <= -2)], it4[(x4 >= -2.5) & (x4 <= -2)], color='black', label='x0 from [-2.5,-2]')
+    #[-1.1, -0.9] converges to -1: red
+    plt.plot(x4[(x4 >= -1.1) & (x4 <= -0.9)], it4[(x4 >= -1.1) & (x4 <= -0.9)], color='red', label='x0 from [-1.1, -0.9]')
+    #[0.9, 1.1] converges to -1: green
+    plt.plot(x4[(x4 >= 0.9) & (x4 <= 1.1)], it4[(x4 >= 0.9) & (x4 <= 1.1)], color='green', label='x0 from [0.9, 1.1]')
+    #[2,2.5] converges to 2: orange
+    plt.plot(x4[(x4 >= 2) & (x4 <= 2.5)], it4[(x4 >= 2) & (x4 <= 2.5)], color='orange', label='x0 from [2,2.5]')
+    plt.xlabel('x0')
+    plt.ylabel('iterations')
+    plt.title('Newton Iterations')
+    plt.legend()
+    plt.show()
+
+    # This is so beautiful guys ToT. Lmao, FOR REAL WITH ALL THESE COMMENTS AND PPL STILL SAY I USE CHATGPT.
 
 main()
