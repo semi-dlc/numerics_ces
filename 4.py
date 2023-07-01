@@ -25,11 +25,11 @@ def f5(x, j):
     return np.array([f.real, f.imag])
 
 def zj(j): ##root of f5j
-    z = []
+    z = np.zeros((j, 2))
     for k in range (1, j+1):
         theta = 2 * np.pi * k / j
-        zk = complex(np.cos(theta), np.sin(theta)) #Careful! Because np.pi is not exactly pi, there are some numerical errors
-        z.append(zk)
+        zk = np.array([np.cos(theta), np.sin(theta)]) #Careful! Because np.pi is not exactly pi, there are some numerical errors
+        z[k-1] = zk
     return z
 
 def Df5(x, j):
@@ -74,6 +74,8 @@ def newton_C (x0, j, f, Df, tol, itmax, x = []):
     x_new  = x[0] - np.linalg.inv(Df(x[0], j)).dot(f(x[0], j))
     x.append(x_new)
     itmax = 0
+
+    ## idea ## find out each time which element of zj is closest to the current x[itmax] using min {}
     while error(x[itmax+1], x[itmax]) > tol * np.linalg.norm(x[itmax], ord=2): ## to be worked on. The condition here is different and has sth to do with zj
         x_new  = x[itmax+1] - np.linalg.inv(Df(x[itmax+1], j)).dot(f(x[itmax+1],j))
         x.append(x_new)
@@ -139,7 +141,7 @@ def main():
     print (x5)
     print (zj(3)[2]) ##Same :D Or am I just delusional
     '''
-
+    print (zj (3))
     j = 4
 
     min_re = -1
@@ -148,6 +150,7 @@ def main():
     max_im = 1
 
     num_points = 100
+
 
     # Create the grid of points
     x = np.linspace(min_re, max_re, num_points)
@@ -160,7 +163,7 @@ def main():
 
     for i in range (0, num_points):
         x5[i], it5[i] = newton_C(x5_0[i], j, f5, Df5, 0.0000000000001, it5[i])
-        print (x5[i])
+        #print (x5[i])
 
     
 main()
@@ -169,5 +172,6 @@ main()
     #@warisa: ofc. your code and your handwriting are quite similiar. its late and my mind was on how to do a comment in python while staring at your comment. 
     # This is so beautiful guys ToT. Lmao, FOR REAL WITH ALL THESE COMMENTS AND PPL STILL SAY I USE CHATGPT. 
 #do you know that fractals can have non-integer dimension values? why do drugs when you can look at mandelbrotmengen. Like a big nerd we r :) no. just broke and in need for substitutes
+
 
 
