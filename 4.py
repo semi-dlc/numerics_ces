@@ -134,9 +134,9 @@ def main():
     x5_0 = np.array([1, 2]) 
     itmax5 = 0
     j = 3
-    x5, itmax5 = newton_C(x5_0, j, f5, Df5, 0.0000000000001, itmax5)
+    x5, itmax5 = newton_C(x5_0, j, f5, Df5, 0.0000000000001, itmax5) #Should we find a way to make one newton and not so many variants?
     print (x5)
-    print (zj(3)[2]) ##Same :D Or am I just delusional
+    print (zj(3)[2]) ##Same :D Or am I just delusional 
 
     
 main()
