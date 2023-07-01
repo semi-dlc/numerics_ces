@@ -19,14 +19,25 @@ def f4 (x):
 def Df4(x):
     return 4*x**3-10*x
 
-def gj(z, j):
-    return z**j - 1
+def f5(x, j):
+    z = x[0] + x[1] * 1j 
+    f = z**j - 1
+    return np.array([f.real, f.imag])
 
-def zkj(j, k):
-    theta = 2 * np.pi * k / j
-    z = complex(np.cos(theta), np.sin(theta))
-    result = gj(z, j)
-    return np.real(result), np.imag(result)
+def zj(j): ##root of f5j
+    z = []
+    for k in range (1, j+1):
+        theta = 2 * np.pi * k / j
+        zk = complex(np.cos(theta), np.sin(theta)) #Careful! Because np.pi is not exactly pi, there are some numerical errors
+        z.append(zk)
+    return z
+
+def Df5(x, j):
+    z = x[0] + x[1] * 1j 
+    df_da = j * np.power(z, j-1)  # Partial derivative of z with respect to a
+    df_db = j * np.power(z, j-1) * 1j  # Partial derivative of z with respect to b
+    
+    return np.array([[df_da.real, df_da.imag], [df_db.real, df_db.imag]])
 
 ## TBD: partial derivative of gj
     #We need to first analyze how this works.
@@ -57,6 +68,18 @@ def newton (x0, f, Df, tol, itmax, x = []):
         itmax += 1
     return x[itmax], itmax
 
+def newton_C (x0, j, f, Df, tol, itmax, x = []):
+    x = []
+    x.append(x0)
+    x_new  = x[0] - np.linalg.inv(Df(x[0], j)).dot(f(x[0], j))
+    x.append(x_new)
+    itmax = 0
+    while error(x[itmax+1], x[itmax]) > tol * np.linalg.norm(x[itmax], ord=2):
+        x_new  = x[itmax+1] - np.linalg.inv(Df(x[itmax+1], j)).dot(f(x[itmax+1],j))
+        x.append(x_new)
+        itmax += 1
+    return x[itmax], itmax
+
 ## to be implemented to just be in newton()
 def newton_1D(x0, f, Df, tol, it_max, x=[]):
     x = []
@@ -83,7 +106,7 @@ def main():
 
     ## b.) ##
     ## generate 1000 in [-2.5, 2.5]
-    n = 1000000
+    n = 100
     x4_0 = np.linspace(-2.5, 2.5, n)
     x4 = np.zeros_like(x4_0)
     it4 = np.zeros_like(x4_0)
@@ -107,14 +130,19 @@ def main():
     plt.title('Newton Iterations')
     plt.legend()
     plt.show()
-
+    
+    x5_0 = np.array([1, 2]) 
+    itmax5 = 0
+    j = 3
+    x5, itmax5 = newton_C(x5_0, j, f5, Df5, 0.0000000000001, itmax5)
+    print (x5)
+    print (zj(3)[2]) ##Same :D Or am I just delusional
 
     
 main()
     #@warisa: take it as a comment,stupid
-    #@dino: compliment, you mean. Like how Icode so well :P
+    #@dino: compliment, you mean. Like how I code so well :P
     #@warisa: ofc. your code and your handwriting are quite similiar. its late and my mind was on how to do a comment in python while staring at your comment. 
     # This is so beautiful guys ToT. Lmao, FOR REAL WITH ALL THESE COMMENTS AND PPL STILL SAY I USE CHATGPT. 
 #do you know that fractals can have non-integer dimension values? why do drugs when you can look at mandelbrotmengen. Like a big nerd we r :) no. just broke and in need for substitutes
-
 
