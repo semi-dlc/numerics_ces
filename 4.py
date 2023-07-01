@@ -74,7 +74,7 @@ def newton_C (x0, j, f, Df, tol, itmax, x = []):
     x_new  = x[0] - np.linalg.inv(Df(x[0], j)).dot(f(x[0], j))
     x.append(x_new)
     itmax = 0
-    while error(x[itmax+1], x[itmax]) > tol * np.linalg.norm(x[itmax], ord=2):
+    while error(x[itmax+1], x[itmax]) > tol * np.linalg.norm(x[itmax], ord=2): ## to be worked on. The condition here is different and has sth to do with zj
         x_new  = x[itmax+1] - np.linalg.inv(Df(x[itmax+1], j)).dot(f(x[itmax+1],j))
         x.append(x_new)
         itmax += 1
@@ -106,11 +106,11 @@ def main():
 
     ## b.) ##
     ## generate 1000 in [-2.5, 2.5]
-    n = 100
-    x4_0 = np.linspace(-2.5, 2.5, n)
+    n4 = 100
+    x4_0 = np.linspace(-2.5, 2.5, n4)
     x4 = np.zeros_like(x4_0)
     it4 = np.zeros_like(x4_0)
-    for i in range (0,n):
+    for i in range (0,n4):
         x4[i], it4[i] = newton_1D(x4_0[i], f4, Df4, 0.00000001, it4[i])
     
     print(x4)
@@ -131,12 +131,36 @@ def main():
     plt.legend()
     plt.show()
     
+    '''
     x5_0 = np.array([1, 2]) 
     itmax5 = 0
     j = 3
-    x5, itmax5 = newton_C(x5_0, j, f5, Df5, 0.0000000000001, itmax5) #Should we find a way to make one newton and not so many variants?
+    x5, itmax5 = newton_C(x5_0, j, f5, Df5, 0.0000000000001, itmax5)
     print (x5)
-    print (zj(3)[2]) ##Same :D Or am I just delusional 
+    print (zj(3)[2]) ##Same :D Or am I just delusional
+    '''
+
+    j = 4
+
+    min_re = -1
+    max_re = 1
+    min_im = -1
+    max_im = 1
+
+    num_points = 100
+
+    # Create the grid of points
+    x = np.linspace(min_re, max_re, num_points)
+    y = np.linspace(min_im, max_im, num_points)
+    X, Y = np.meshgrid(x, y)
+
+    x5_0 = np.vstack([X.flatten(), Y.flatten()]).T
+    x5 = np.zeros_like(x5_0)
+    it5 = np.zeros_like(x5_0)
+
+    for i in range (0, num_points):
+        x5[i], it5[i] = newton_C(x5_0[i], j, f5, Df5, 0.0000000000001, it5[i])
+        print (x5[i])
 
     
 main()
@@ -145,4 +169,5 @@ main()
     #@warisa: ofc. your code and your handwriting are quite similiar. its late and my mind was on how to do a comment in python while staring at your comment. 
     # This is so beautiful guys ToT. Lmao, FOR REAL WITH ALL THESE COMMENTS AND PPL STILL SAY I USE CHATGPT. 
 #do you know that fractals can have non-integer dimension values? why do drugs when you can look at mandelbrotmengen. Like a big nerd we r :) no. just broke and in need for substitutes
+
 
