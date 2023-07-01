@@ -68,6 +68,7 @@ def newton (x0, f, Df, tol, itmax, x = []):
         itmax += 1
     return x[itmax], itmax
 
+
 def newton_C (x0, j, f, Df, tol, itmax, x = []):
     x = []
     x.append(x0)
@@ -108,7 +109,7 @@ def main():
 
     ## b.) ##
     ## generate 1000 in [-2.5, 2.5]
-    n4 = 100
+    n4 = 10000
     x4_0 = np.linspace(-2.5, 2.5, n4)
     x4 = np.zeros_like(x4_0)
     it4 = np.zeros_like(x4_0)
@@ -122,11 +123,11 @@ def main():
     #[-2.5,-2] converges to -2: black
     plt.plot(x4_0[(x4_0 >= -2.5) & (x4_0 <= -2)], it4[(x4_0 >= -2.5) & (x4_0 <= -2)], 'k.', label='x0 from [-2.5,-2]', markersize=2)
     #[-1.1, -0.9] converges to -1: red
-    plt.plot(x4[(x4_0 >= -1.1) & (x4_0 <= -0.9)], it4[(x4_0 >= -1.1) & (x4_0 <= -0.9)], 'r.', label='x0 from [-1.1, -0.9]', markersize=2)
+    plt.plot(x4_0[(x4_0 >= -1.1) & (x4_0 <= -0.9)], it4[(x4_0 >= -1.1) & (x4_0 <= -0.9)], 'r.', label='x0 from [-1.1, -0.9]', markersize=2)
     #[0.9, 1.1] converges to -1: green
-    plt.plot(x4[(x4_0 >= 0.9) & (x4_0 <= 1.1)], it4[(x4_0 >= 0.9) & (x4_0 <= 1.1)], 'g.', label='x0 from [0.9, 1.1]', markersize=2)
+    plt.plot(x4_0[(x4_0 >= 0.9) & (x4_0 <= 1.1)], it4[(x4_0 >= 0.9) & (x4_0 <= 1.1)], 'g.', label='x0 from [0.9, 1.1]', markersize=2)
     #[2,2.5] converges to 2: yellow
-    plt.plot(x4[(x4_0 >= 2) & (x4_0 <= 2.5)], it4[(x4_0 >= 2) & (x4_0 <= 2.5)], 'y.', label='x0 from [2,2.5]', markersize=2)
+    plt.plot(x4_0[(x4_0 >= 2) & (x4_0 <= 2.5)], it4[(x4_0 >= 2) & (x4_0 <= 2.5)], 'y.', label='x0 from [2,2.5]', markersize=2)
     plt.xlabel('x0')
     plt.ylabel('iterations')
     plt.title('Newton Iterations')
@@ -172,6 +173,4 @@ main()
     #@warisa: ofc. your code and your handwriting are quite similiar. its late and my mind was on how to do a comment in python while staring at your comment. 
     # This is so beautiful guys ToT. Lmao, FOR REAL WITH ALL THESE COMMENTS AND PPL STILL SAY I USE CHATGPT. 
 #do you know that fractals can have non-integer dimension values? why do drugs when you can look at mandelbrotmengen. Like a big nerd we r :) no. just broke and in need for substitutes
-
-
 
