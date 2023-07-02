@@ -24,6 +24,13 @@ def f5(x, j):
     f = z**j - 1
     return np.array([f.real, f.imag])
 
+def Df5(x, j):
+    z = x[0] + x[1] * 1j 
+    df_da = j * np.power(z, j-1)  # Partial derivative of z with respect to a
+    df_db = j * np.power(z, j-1) * 1j  # Partial derivative of z with respect to b
+    
+    return np.array([[df_da.real, df_da.imag], [df_db.real, df_db.imag]])
+
 def zj(j): ##root of f5j
     z = np.zeros((j, 2))
     for k in range (1, j+1):
@@ -32,12 +39,7 @@ def zj(j): ##root of f5j
         z[k-1] = zk
     return z
 
-def Df5(x, j):
-    z = x[0] + x[1] * 1j 
-    df_da = j * np.power(z, j-1)  # Partial derivative of z with respect to a
-    df_db = j * np.power(z, j-1) * 1j  # Partial derivative of z with respect to b
-    
-    return np.array([[df_da.real, df_da.imag], [df_db.real, df_db.imag]])
+
 
 ## TBD: partial derivative of gj
     #We need to first analyze how this works.
