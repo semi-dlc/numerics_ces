@@ -32,6 +32,7 @@ def zj(j_d): ##root of f5j
         z[k-1] = zk
     return z
 
+## error here. A singular matrix is produced
 def Df5(x, j_d):
     a = x[0]
     b = x[1]
@@ -88,7 +89,7 @@ def newton_C (x0, j, f, Df, tol, itmax, x = []):
     x.append(x_new)
     itmax = 0
 
-    ## idea ## find out each time which element of zj is closest to the current x[itmax] using min {}
+
     while error_C(x[itmax], zj(j)) >= tol: ## to be worked on. The condition here is different and has sth to do with zj
         x_new  = x[itmax+1] - np.linalg.inv(Df(x[itmax+1], j)).dot(f(x[itmax+1],j))
         x.append(x_new)
