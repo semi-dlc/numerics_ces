@@ -51,6 +51,14 @@ def error (x1, x0):
 def error_1D (x1,x0):
     return np.abs(x1 - x0)
 
+def error_C(x, zj):
+    error_list = []
+    for zk in zj:
+        error = np.linalg.norm(x-zk, ord=2)
+        error_list.append(error)
+    error_min = min (error_list)
+    return error_min
+
 ## to do for fun.. (?) do a function that is a map -> so Df can be a function applicable to all functions from f1-f3
 ## right now newton works fine
 ## in place how? One possiblity is to save the old value in temp but u still need the origianl x to input it in Df tho
@@ -77,7 +85,7 @@ def newton_C (x0, j, f, Df, tol, itmax, x = []):
     itmax = 0
 
     ## idea ## find out each time which element of zj is closest to the current x[itmax] using min {}
-    while error(x[itmax+1], x[itmax]) > tol * np.linalg.norm(x[itmax], ord=2): ## to be worked on. The condition here is different and has sth to do with zj
+    while error_C(x[itmax], zj(j)) >= tol: ## to be worked on. The condition here is different and has sth to do with zj
         x_new  = x[itmax+1] - np.linalg.inv(Df(x[itmax+1], j)).dot(f(x[itmax+1],j))
         x.append(x_new)
         itmax += 1
@@ -142,7 +150,6 @@ def main():
     print (x5)
     print (zj(3)[2]) ##Same :D Or am I just delusional
     '''
-    print (zj (3))
     j = 4
 
     min_re = -1
@@ -164,8 +171,9 @@ def main():
 
     for i in range (0, num_points):
         x5[i], it5[i] = newton_C(x5_0[i], j, f5, Df5, 0.0000000000001, it5[i])
-        #print (x5[i])
+        print (x5[i])
 
+    print (zj(3))
     
 main()
     #@warisa: take it as a comment,stupid
