@@ -19,27 +19,29 @@ def f4 (x):
 def Df4(x):
     return 4*x**3-10*x
 
-def f5(x, j):
+def f5(x, j_d):
     z = x[0] + x[1] * 1j 
-    f = z**j - 1
+    f = z**j_d - 1
     return np.array([f.real, f.imag])
 
-def Df5(x, j):
-    z = x[0] + x[1] * 1j 
-    df_da = j * np.power(z, j-1)  # Partial derivative of z with respect to a
-    df_db = j * np.power(z, j-1) * 1j  # Partial derivative of z with respect to b
-    
-    return np.array([[df_da.real, df_da.imag], [df_db.real, df_db.imag]])
-
-def zj(j): ##root of f5j
-    z = np.zeros((j, 2))
-    for k in range (1, j+1):
-        theta = 2 * np.pi * k / j
+def zj(j_d): ##root of f5j
+    z = np.zeros((j_d, 2))
+    for k in range (1, j_d+1):
+        theta = 2 * np.pi * k / j_d
         zk = np.array([np.cos(theta), np.sin(theta)]) #Careful! Because np.pi is not exactly pi, there are some numerical errors
         z[k-1] = zk
     return z
 
-
+def Df5(x, j_d):
+    a = x[0]
+    b = x[1]
+    z = a + b * 1j
+    df_da_real = j_d * (a**(j_d-1)) * np.cos(j_d * np.angle(z))
+    df_da_imag = -j_d * (a**(j_d-1)) * np.sin(j_d * np.angle(z))
+    df_db_real = j_d * (b**(j_d-1)) * np.cos(j_d * np.angle(z))
+    df_db_imag = -j_d * (b**(j_d-1)) * np.sin(j_d * np.angle(z))
+    
+    return np.array([[df_da_real, df_da_imag], [df_db_real, df_db_imag]])
 
 ## TBD: partial derivative of gj
     #We need to first analyze how this works.
