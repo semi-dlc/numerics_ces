@@ -32,17 +32,14 @@ def zj(j_d): ##root of f5j
         z[k-1] = zk
     return z
 
-## error here. A singular matrix is produced
 def Df5(x, j_d):
     a = x[0]
     b = x[1]
     z = a + b * 1j
-    df_da_real = j_d * (a**(j_d-1)) * np.cos(j_d * np.angle(z))
-    df_da_imag = -j_d * (a**(j_d-1)) * np.sin(j_d * np.angle(z))
-    df_db_real = j_d * (b**(j_d-1)) * np.cos(j_d * np.angle(z))
-    df_db_imag = -j_d * (b**(j_d-1)) * np.sin(j_d * np.angle(z))
+    df_da = j_d * z**(j_d-1)
+    df_db = j_d * z**(j_d-1) * 1j
     
-    return np.array([[df_da_real, df_da_imag], [df_db_real, df_db_imag]])
+    return np.array([[df_da.real, df_da.imag], [df_db.real, df_db.imag]])
 
 ## TBD: partial derivative of gj
     #We need to first analyze how this works.
@@ -89,11 +86,12 @@ def newton_C (x0, j, f, Df, tol, itmax, x = []):
     x.append(x_new)
     itmax = 0
 
-
+    ## idea ## find out each time which element of zj is closest to the current x[itmax] using min {}
     while error_C(x[itmax], zj(j)) >= tol: ## to be worked on. The condition here is different and has sth to do with zj
         x_new  = x[itmax+1] - np.linalg.inv(Df(x[itmax+1], j)).dot(f(x[itmax+1],j))
         x.append(x_new)
         itmax += 1
+    
     return x[itmax], itmax
 
 ## to be implemented to just be in newton()
@@ -107,6 +105,7 @@ def newton_1D(x0, f, Df, tol, it_max, x=[]):
         x_new = x[itmax+1] - f(x[itmax+1]) / Df(x[itmax+1])
         x.append(x_new)
         itmax += 1
+    
     return x[itmax], itmax
 
 
@@ -155,7 +154,7 @@ def main():
     print (x5)
     print (zj(3)[2]) ##Same :D Or am I just delusional
     '''
-    j = 4
+    j = 5
 
     min_re = -1
     max_re = 1
@@ -175,15 +174,10 @@ def main():
     it5 = np.zeros_like(x5_0)
 
     for i in range (0, num_points):
-        x5[i], it5[i] = newton_C(x5_0[i], j, f5, Df5, 0.0000000000001, it5[i])
+        x5[i], it5[i] = newton_C(x5_0[i], j, f5, Df5, 0.00000000001, it5[i])
         print (x5[i])
 
-    print (zj(3))
+    print (zj(5))
     
 main()
-    #@warisa: take it as a comment,stupid
-    #@dino: compliment, you mean. Like how I code so well :P
-    #@warisa: ofc. your code and your handwriting are quite similiar. its late and my mind was on how to do a comment in python while staring at your comment. 
-    # This is so beautiful guys ToT. Lmao, FOR REAL WITH ALL THESE COMMENTS AND PPL STILL SAY I USE CHATGPT. 
-#do you know that fractals can have non-integer dimension values? why do drugs when you can look at mandelbrotmengen. Like a big nerd we r :) no. just broke and in need for substitutes
 
