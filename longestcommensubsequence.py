@@ -42,7 +42,7 @@ def lcs(s1, s2):
         elif l1[i][j] == l1[i][j - 1] and s1[i - 1] != s2[j - 1]:
             j = j - 1
         else:
-            print("Shouldn't happen. While reconstructing LCS")
+            print("Shouldn't happen. While reconstructing LCS") #this happens. i suppose indexing errors
             return False
 
     ret.reverse()
