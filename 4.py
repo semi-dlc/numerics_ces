@@ -5,6 +5,16 @@ def f1(x):
     #fx1 = x[0]**2 + x[1]**2 - 1
     #fx2 = x[0]*x[1] - 1/4
     return np.array([x[0]**2 + x[1]**2 - 1, x[0]*x[1] - 1/4])
+#roots are sign(sqrt(0.5+sqrt(3)/4))
+f1_root1 = [np.sqrt(0.5 + np.sqrt(3) / 4), 1/(4 * np.sqrt(0.5 + np.sqrt(3) / 4))]
+f1_root2 = [np.sqrt(0.5 + np.sqrt(3) / 4) * -1, -1/(4 * np.sqrt(0.5 + np.sqrt(3) / 4))]
+f1_root3 = [1/(4 * np.sqrt(0.5 + np.sqrt(3) / 4)), np.sqrt(0.5 + np.sqrt(3) / 4)]
+f1_root4 = [-1/(4 * np.sqrt(0.5 + np.sqrt(3) / 4)), -1 * np.sqrt(0.5 + np.sqrt(3) / 4)] 
+print(f1_root1)
+print(f1_root2)
+print(f1_root3)
+print(f1_root4)
+
 
 def Df1 (x):
 #    Df1x = 2*x[0]
@@ -12,6 +22,29 @@ def Df1 (x):
   #  Df2x = x[1]
    # Df2y = x[0]
     return np.array([[2*x[0], 2*x[1]],[x[1], x[0]] ])
+
+def f2(x):
+  #  xx = x[0]**2 - x[1] - 2
+  #  yy = x[0] * x[1] + 1
+    return np.array([x[0]**2 - x[1] - 2, x[0] * x[1] + 1])
+def Df2(x):
+ #   Dx0 = 2*x[0]
+ #   Dx1 = x[1]
+ #   Dy0 = -1
+ #   Dy1 = x[0]
+    return np.array([[2*x[0], x[1]], [-1, x[0]]])
+
+def f3(x):
+#   xx = x[0] / 2 * np.sin(np.pi * x[0]) - x[1]
+#   yy = x[1] ** 2 - x[0] + 1
+    return np.array([x[0] / 2 * np.sin(np.pi * x[0]) - x[1], x[1] ** 2 - x[0] + 1])
+def Df3(x):
+ #   Dx0 = 
+  #  Dx1 = -1
+#    Dy0 = -1
+#    Dy1 = 2*x[1]
+    return np.array([[NaN, -1],[-1, 2*x[1]]])
+
 
 def f4 (x):
     return (x**2 - 4) * (x**2 - 1)
@@ -114,8 +147,20 @@ def main():
     ## TBD !! ##
     x1_0 = np.array ([1,2])
     itmax = 2
-    x1, itmax = newton(x1_0, f1, Df1, 0.0000000000001, itmax)
+    print("Root starting at ") 
+    print(x1_0)
+    x1, itmax = newton(x1_0, f1, Df1, 0.000001, itmax)
     print (x1)
+    print("Iterations")
+    print (itmax)
+
+    x2_0 = np.array([1, -2])
+    itmax = 2
+    print("Root starting at ") 
+    print(x2_0)
+    x2, itmax = newton(x2_0, f2, Df2, 0.000001, itmax)
+    print (x2)
+    print("Iterations")
     print (itmax)
 
 
