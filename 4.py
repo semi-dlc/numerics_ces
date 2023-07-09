@@ -2,16 +2,16 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 def f1(x):
-    fx1 = x[0]**2 + x[1]**2 - 1
-    fx2 = x[0]*x[1] - 1/4
-    return np.array([fx1, fx2])
+    #fx1 = x[0]**2 + x[1]**2 - 1
+    #fx2 = x[0]*x[1] - 1/4
+    return np.array([x[0]**2 + x[1]**2 - 1, x[0]*x[1] - 1/4])
 
 def Df1 (x):
-    Df1x = 2*x[0]
-    Df1y = 2*x[1]
-    Df2x = x[1]
-    Df2y = x[0]
-    return np.array([[Df1x, Df1y], [Df2x, Df2y]])
+#    Df1x = 2*x[0]
+ #   Df1y = 2*x[1]
+  #  Df2x = x[1]
+   # Df2y = x[0]
+    return np.array([[2*x[0], 2*x[1]],[x[1], x[0]] ])
 
 def f4 (x):
     return (x**2 - 4) * (x**2 - 1)
@@ -28,14 +28,14 @@ def zj(j_d): ##root of f5j
     z = np.zeros((j_d, 2))
     for k in range (1, j_d+1):
         theta = 2 * np.pi * k / j_d
-        zk = np.array([np.cos(theta), np.sin(theta)]) #Careful! Because np.pi is not exactly pi, there are some numerical errors
+        zk = np.array([np.cos(theta), np.sin(theta)]) #Careful! Because np.pi is not exactly pi, there are some numerical errors that might become relevant
         z[k-1] = zk
     return z
 
 def Df5(x, j_d):
-    a = x[0]
-    b = x[1]
-    z = a + b * 1j
+    #a = x[0]
+    #b = x[1]
+    z = x[0] + x[1] * 1j
     df_da = j_d * z**(j_d-1)
     df_db = j_d * z**(j_d-1) * 1j
     
