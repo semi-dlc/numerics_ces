@@ -7,42 +7,11 @@ def f1(x):
     return np.array([fx1, fx2])
 
 def Df1 (x):
-<<<<<<< Updated upstream
     Df1x = 2*x[0]
     Df1y = 2*x[1]
     Df2x = x[1]
     Df2y = x[0]
     return np.array([[Df1x, Df1y], [Df2x, Df2y]])
-=======
-#    Df1x = 2*x[0]
- #   Df1y = 2*x[1]
-  #  Df2x = x[1]
-   # Df2y = x[0]
-    return np.array([[2*x[0], 2*x[1]],[x[1], x[0]] ])
-
-def f2(x):
-  #  xx = x[0]**2 - x[1] - 2
-  #  yy = x[0] * x[1] + 1
-    return np.array([x[0]**2 - x[1] - 2, x[0] * x[1] + 1])
-def Df2(x):
- #   Dx0 = 2*x[0]
- #   Dx1 = x[1]
- #   Dy0 = -1
- #   Dy1 = x[0]
-    return np.array([[2*x[0], x[1]], [-1, x[0]]])
-
-def f3(x):
-#   xx = x[0] / 2 * np.sin(np.pi * x[0]) - x[1]
-#   yy = x[1] ** 2 - x[0] + 1
-    return np.array([x[0] * 0.5 * np.sin(np.pi * x[0] * 0.5) - x[1], x[1] ** 2 - x[0] + 1])
-def Df3(x):
- #   Dx0 = 0.5 * np.sin(np.pi * x[0] / 2) + 0.25 * x[0] * np.pi * np.cos(np.pi * x[0] / 2) 
-  #  Dx1 = -1
-#    Dy0 = -1
-#    Dy1 = 2*x[1]
-    return np.array([[0.5 * np.sin(np.pi * x[0] / 2) + 0.25 * x[0] * np.pi * np.cos(np.pi * x[0] / 2), -1],[-1, 2*x[1]]])
-
->>>>>>> Stashed changes
 
 def f4 (x):
     return (x**2 - 4) * (x**2 - 1)
@@ -63,8 +32,6 @@ def zj(j_d): ##root of f5j
         z[k-1] = zk
     return z
 
-
-
 def Df5(x, j_d):
     a = x[0]
     b = x[1]
@@ -72,7 +39,7 @@ def Df5(x, j_d):
     df_da = j_d * z**(j_d-1)
     df_db = j_d * z**(j_d-1) * 1j
     
-    return np.array([[df_da.real, df_da.imag], [df_db.real, df_db.imag]])
+    return np.array([[df_da.real, df_db.real], [df_da.imag, df_db.imag]])
 
 ## TBD: partial derivative of gj
     #We need to first analyze how this works.
@@ -97,32 +64,16 @@ def error_C(x, zj):
 ## to do for fun.. (?) do a function that is a map -> so Df can be a function applicable to all functions from f1-f3
 ## right now newton works fine
 ## in place how? One possiblity is to save the old value in temp but u still need the origianl x to input it in Df tho
-epsilonJacobian = 0.01
+
 
 def newton (x0, f, Df, tol, itmax, x = []):
     x = []
     x.append(x0)
-    print(f(x0))
-    print(Df(x0))
-    try:
-        x_new  = x[0] - np.linalg.inv(Df(x[0])).dot(f(x[0]))
-    except np.linalg.LinAlgError: # be x a vector of real numbers
-        epsilonJacobian = 0.01
-        print("Jacobian is singular. x gets a slight offset")
-        for i in x[0]:
-            i -= epsilonJacobian
-            x_new  = x[0] - np.linalg.inv(Df(x[0])).dot(f(x[0]))
+    x_new  = x[0] - np.linalg.inv(Df(x[0])).dot(f(x[0]))
     x.append(x_new)
     itmax = 0
     while error(x[itmax+1], x[itmax]) > tol * np.linalg.norm(x[itmax], ord=2):
-        try:
-            x_new  = x[itmax+1] - np.linalg.inv(Df(x[itmax+1])).dot(f(x[itmax+1]))
-        except np.linalg.LinAlgError:
-            
-            print("Jacobian is singular. x gets a slight offset")
-            for i in x[itmax + 1]:
-                i -= epsilonJacobian
-            x_new  = x[itmax+1] - np.linalg.inv(Df(x[itmax+1])).dot(f(x[itmax+1]))
+        x_new  = x[itmax+1] - np.linalg.inv(Df(x[itmax+1])).dot(f(x[itmax+1]))
         x.append(x_new)
         itmax += 1
     return x[itmax], itmax
@@ -135,8 +86,7 @@ def newton_C (x0, j, f, Df, tol, itmax, x = []):
     x.append(x_new)
     itmax = 0
 
-    ## idea ## find out each time which element of zj is closest to the current x[itmax] using min {}
-    while error_C(x[itmax], zj(j)) >= tol: ## to be worked on. The condition here is different and has sth to do with zj
+    while error_C(x[itmax], zj(j)) >= tol:
         x_new  = x[itmax+1] - np.linalg.inv(Df(x[itmax+1], j)).dot(f(x[itmax+1],j))
         x.append(x_new)
         itmax += 1
@@ -157,36 +107,14 @@ def newton_1D(x0, f, Df, tol, it_max, x=[]):
     
     return x[itmax], itmax
 
-def plot_newton(xy): #xy is 
-    #be xy a xy coordinate tuple. Input x-y on x,y-plane. Output x is height z and y is color
-    #reason: visualizing in 4d is quite hard
-    plt.plot()
-
 
 def main():
     ## partially a.) ##
     ## TBD !! ##
     x1_0 = np.array ([1,2])
     itmax = 2
-<<<<<<< Updated upstream
     x1, itmax = newton(x1_0, f1, Df1, 0.0000000000001, itmax)
     print (x1)
-=======
-    print("Root starting at ") 
-    print(x1_0)
-    x1_nroot, itmax = newton(x1_0, f1, Df1, 0.000001, itmax)
-    print (x1_nroot)
-    print("Iterations")
-    print (itmax)
-
-    x2_0 = np.array([1, 2])
-    itmax = 2
-    print("Root starting at ") 
-    print(x2_0)
-    x2_nroot, itmax = newton(x2_0, f2, Df2, 0.000001, itmax)
-    print (x2_nroot)
-    print("Iterations")
->>>>>>> Stashed changes
     print (itmax)
 
 
@@ -194,12 +122,12 @@ def main():
     ## generate 1000 in [-2.5, 2.5]
     n4 = 10000
     x4_0 = np.linspace(-2.5, 2.5, n4)
-    x4_nroot = np.zeros_like(x4_0)
+    x4 = np.zeros_like(x4_0)
     it4 = np.zeros_like(x4_0)
     for i in range (0,n4):
-        x4_nroot[i], it4[i] = newton_1D(x4_0[i], f4, Df4, 0.00000001, it4[i])
+        x4[i], it4[i] = newton_1D(x4_0[i], f4, Df4, 0.00000001, it4[i])
     
-    print(x4_nroot)
+    print(x4)
     print (it4)
 
     plt.plot(x4_0, it4, 'b.', label='x0 from [-2.5,2.5]', markersize=2)
@@ -213,7 +141,7 @@ def main():
     plt.plot(x4_0[(x4_0 >= 2) & (x4_0 <= 2.5)], it4[(x4_0 >= 2) & (x4_0 <= 2.5)], 'y.', label='x0 from [2,2.5]', markersize=2)
     plt.xlabel('x0')
     plt.ylabel('iterations')
-    plt.title('Newton Iterations. Task b')
+    plt.title('Newton Iterations')
     plt.legend()
     plt.show()
     
@@ -232,7 +160,7 @@ def main():
     min_im = -1
     max_im = 1
 
-    num_points = 1
+    num_points = 100
 
 
     # Create the grid of points
@@ -244,12 +172,10 @@ def main():
     x5 = np.zeros_like(x5_0)
     it5 = np.zeros_like(x5_0)
 
-    print (zj(5))
     for i in range (0, num_points):
-        x5[i], it5[i] = newton_C(x5_0[i], j, f5, Df5, 0.00001, it5[i]) #program halts here (?)
+        x5[i], it5[i] = newton_C(x5_0[i], j, f5, Df5, 0.00000000001, it5[i])
         print (x5[i])
 
-
+    print (zj(5))
     
 main()
-
