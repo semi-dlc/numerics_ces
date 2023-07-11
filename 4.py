@@ -16,6 +16,10 @@ def Df1 (x):
 def f4 (x):
     return (x**2 - 4) * (x**2 - 1)
 
+#minima of f4 are sqrt(2.5),so m1,m2 = -1.58, 1.58
+#maximum is 0
+#roots are -2 -1 1 2
+
 def Df4(x):
     return 4*x**3-10*x
 
