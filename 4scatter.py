@@ -64,6 +64,11 @@ def main():
     print(fx)
     fig = plt.figure()
     ax = fig.add_subplot(111, projection = '3d')
-    ax.scatter( c = C/255.0)
+    for i in range(len(x_it)):
+        coord = [x_it[i][0], x_it[i][1], fx[i][0]]
+        print(coord)
+        print(fx[i][1])
+        ax.scatter(coord, c = log_transform(fx[i][1]))
+    fig.show()
 
 main()

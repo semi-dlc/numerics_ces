@@ -7,19 +7,11 @@ def f1(x):
     return np.array([x[0]**2 + x[1]**2 - 1, x[0]*x[1] - 1/4])
 
 def Df1 (x):
-<<<<<<< Updated upstream
-    Df1x = 2*x[0]
-    Df1y = 2*x[1]
-    Df2x = x[1]
-    Df2y = x[0]
-    return np.array([[Df1x, Df1y], [Df2x, Df2y]])
-=======
 #    Df1x = 2*x[0]
  #   Df1y = 2*x[1]
   #  Df2x = x[1]
    # Df2y = x[0]
     return np.array([[2*x[0], 2*x[1]],[x[1], x[0]] ])
->>>>>>> Stashed changes
 
 def f4 (x):
     return (x**2 - 4) * (x**2 - 1)
@@ -147,9 +139,6 @@ def main():
     plt.legend()
     plt.show()
     
-<<<<<<< Updated upstream
-    j = 5
-=======
     '''
    #x5_0 = np.array([1, 2]) 
     #itmax5 = 0
@@ -160,7 +149,6 @@ def main():
     '''
     '''
     j = 4
->>>>>>> Stashed changes
 
     min_re = -1
     max_re = 1
@@ -180,16 +168,9 @@ def main():
     it5 = np.zeros_like(x5_0)
 
     for i in range (0, num_points):
-<<<<<<< Updated upstream
-        x5[i], it5[i] = newton_C(x5_0[i], j, f5, Df5, 0.00000000001, it5[i])
-        print (x5[i])
-
-    print (zj(5))
-=======
         x5[i], it5[i] = newton_C(x5_0[i], j, f5, Df5, 0.0000001, it5[i])
         print (x5[i])
 
     print (zj(4))
->>>>>>> Stashed changes
     
 main()
