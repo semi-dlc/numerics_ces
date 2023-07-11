@@ -40,7 +40,7 @@ ax = fig.add_subplot(111, projection='3d')
 surf = ax.plot_surface(X, Y, Z[0], facecolors=plt.cm.seismic(color_array)) #roots are white
 
 # Add a colorbar for reference
-fig.colorbar(seismic)
+#fig.colorbar(seismic)
 
 # Set labels and title
 ax.set_xlabel('X')

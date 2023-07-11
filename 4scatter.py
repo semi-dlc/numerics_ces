@@ -62,5 +62,8 @@ def main():
     for i in x_it:
         fx.append(f2(i))
     print(fx)
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection = '3d')
+    ax.scatter( c = C/255.0)
 
 main()
