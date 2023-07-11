@@ -40,11 +40,6 @@ def Df5(x, j_d):
     df_db = j_d * z**(j_d-1) * 1j
     
     return np.array([[df_da.real, df_db.real], [df_da.imag, df_db.imag]])
-
-## TBD: partial derivative of gj
-    #We need to first analyze how this works.
-    #Ok now I know. Thx...
-## TBD: Jacobian matrix of f5,j
     
 
 def error (x1, x0):
@@ -93,7 +88,6 @@ def newton_C (x0, j, f, Df, tol, itmax, x = []):
     
     return x[itmax], itmax
 
-## to be implemented to just be in newton()
 def newton_1D(x0, f, Df, tol, it_max, x=[]):
     x = []
     x.append(x0)
@@ -110,7 +104,6 @@ def newton_1D(x0, f, Df, tol, it_max, x=[]):
 
 def main():
     ## partially a.) ##
-    ## TBD !! ##
     x1_0 = np.array ([1,2])
     itmax = 2
     x1, itmax = newton(x1_0, f1, Df1, 0.0000000000001, itmax)
@@ -118,7 +111,6 @@ def main():
     print (itmax)
 
 
-    ## b.) ##
     ## generate 1000 in [-2.5, 2.5]
     n4 = 10000
     x4_0 = np.linspace(-2.5, 2.5, n4)
@@ -145,14 +137,6 @@ def main():
     plt.legend()
     plt.show()
     
-    '''
-    x5_0 = np.array([1, 2]) 
-    itmax5 = 0
-    j = 3
-    x5, itmax5 = newton_C(x5_0, j, f5, Df5, 0.0000000000001, itmax5)
-    print (x5)
-    print (zj(3)[2]) ##Same :D Or am I just delusional
-    '''
     j = 5
 
     min_re = -1
@@ -179,3 +163,4 @@ def main():
     print (zj(5))
     
 main()
+
