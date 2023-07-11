@@ -286,17 +286,14 @@ def main():
     min_im = -1
     max_im = 1
 
-    num_points = 5
+    num_points = 100
 
 
     # Create the grid of points
     x = np.linspace(min_re, max_re, num_points)
     y = np.linspace(min_im, max_im, num_points)
     X, Y = np.meshgrid(x, y)
-    print("X")
-    print(X)
-    print("Y")
-    print(Y)
+
     x5_0 = np.vstack([X.flatten(), Y.flatten()]).T
     x5 = np.zeros_like(x5_0)
     it5 = np.zeros_like(x5_0)
@@ -304,10 +301,15 @@ def main():
     roots = zj(j)
     for i in range (0, num_points):
         for k in range (0, num_points):
-            x5[i], it5[i] = newton_C(x5_0[i], j, f5, Df5, 0.000000001, it5[i])
-            print (x5[i])         
-            for l in roots:
-                if error(x5[i], )
+            comp = np.array([0,0])
+            comp, it5[i] = newton_C(x5_0[i], j, f5, Df5, 0.000000001, it5[i])
+  #          print (comp)         
+            for l in range(0, len(roots), 1):
+                if error(roots[l], comp) / np.linalg.norm(roots[l], ord = 2) < 0.01:
+                    fractal_map[i][k] = l + 1
+    print(fractal_map)
+    plt.imshow(fractal_map)
+    plt.show()
     print (zj(j))
 
     
