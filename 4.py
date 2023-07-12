@@ -279,38 +279,41 @@ def main():
     plt.show()
     
     '''
-    j = 5
+    js = np.arange(3, 8)
+    numpoints = [20, 50, 100, 500, 1000, 2000, 10000]
 
-    min_re = -1
-    max_re = 1
-    min_im = -1
-    max_im = 1
+    for num_points in numpoints:
+        for j in js:
+            min_re = -2
+            max_re = 2
+            min_im = -2
+            max_im = 2
 
-    num_points = 200
+            name = str(j) + '_' + str(num_points) + '.png'
 
-
-    # Create the grid of points
-    x = np.linspace(min_re, max_re, num_points)
-    y = np.linspace(min_im, max_im, num_points)
-    X, Y = np.meshgrid(x, y)
-#alot is not necessary here and was part of a previous code design
-    x5_0 = np.vstack([X.flatten(), Y.flatten()]).T
-    x5 = np.zeros_like(x5_0)
-    it5 = np.zeros_like(x5_0)
-    fractal_map = np.zeros((num_points, num_points))
-    roots = zj(j)
-    for i in range (0, num_points):
-        for k in range (0, num_points):
-            comp = np.array([0,0])
-            comp, it5[i] = newton_C(np.array([x[k], y[i]]), j, f5, Df5, 0.000000001, it5[i])
-  #          print (comp)         
-            for l in range(0, len(roots), 1):
-                if error(roots[l], comp) / np.linalg.norm(roots[l], ord = 2) < 0.01:
-                    fractal_map[i][k] = l + 1
-    print(fractal_map)
-    plt.imshow(fractal_map, cmap = 'cividis')
-    plt.show()
-    print (zj(j))
+            # Create the grid of points
+            x = np.linspace(min_re, max_re, num_points)
+            y = np.linspace(min_im, max_im, num_points)
+            X, Y = np.meshgrid(x, y)
+        #alot is not necessary here and was part of a previous code design
+            x5_0 = np.vstack([X.flatten(), Y.flatten()]).T
+            x5 = np.zeros_like(x5_0)
+            it5 = np.zeros_like(x5_0)
+            fractal_map = np.zeros((num_points, num_points))
+            roots = zj(j)
+            for i in range (0, num_points):
+                for k in range (0, num_points):
+                    comp = np.array([0,0])
+                    comp, it5[i] = newton_C(np.array([x[k], y[i]]), j, f5, Df5, 0.00001, it5[i])
+        #          print (comp)         
+                    for l in range(0, len(roots), 1):
+                        if error(roots[l], comp) / np.linalg.norm(roots[l], ord = 2) < 0.01:
+                            fractal_map[i][k] = l + 1
+            print(fractal_map)
+            plt.imshow(fractal_map, cmap = 'cividis')
+            plt.savefig(name)
+            plt.show(block=False)
+            print (zj(j))
 
     
 main()
