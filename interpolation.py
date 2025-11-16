@@ -49,11 +49,11 @@ def newton_inter (x, y, xi):
         result += coef[0, i] * w
     return result
 
-def Error(f, fi):
+def Fehler(f, fi):
     return np.abs(f - fi)
 
 def main():
-    # Task 1 
+    ## Aufgabe 1 ##
     #a.
     x = np.array([0,1,2,3])
     y = np.array([-5,-6,-1,16])
@@ -76,7 +76,7 @@ def main():
     print ("\n")
     print (newton_inter(x, y, xi))
 
-    # Task 2
+    ## Aufgabe 2 ##
     fig, axs = plt.subplots(2, 3, figsize=(15,10))
     n = [5, 15 , 25]
     naiv_time = 0
@@ -109,39 +109,35 @@ def main():
         print("Newton interpolation with n={} took {:.6f} seconds".format(num_points, newton_time_n))
         newton_time += newton_time_n
 
-     
+        print ("\n")
 
         axs[0, i].plot(xi_new, yi_naiv, label='Naive Interpolation')
         axs[0, i].plot(xi_new, yi_lagrange, label='Lagrange Interpolation')
         axs[0, i].plot(xi_new, yi_newton, label='Newton Interpolation')
-        axs[0, i].plot(xi_new, np.sin(xi_new), label='sin(x), Original function')
+        axs[0, i].plot(xi_new, np.sin(xi_new), label='sin(x)')
         axs[0, i].set_title(f'n={num_points}')
         axs[0, i].legend()
 
-        # plot Error for each method
-        Error_naiv = Error(np.sin(xi_new), yi_naiv)
-        Error_lagrange = Error(np.sin(xi_new), yi_lagrange)
-        Error_newton = Error(np.sin(xi_new), yi_newton)
+        # plot Fehler for each method
+        Fehler_naiv = Fehler(np.sin(xi_new), yi_naiv)
+        Fehler_lagrange = Fehler(np.sin(xi_new), yi_lagrange)
+        Fehler_newton = Fehler(np.sin(xi_new), yi_newton)
 
-        axs[1, i].plot(xi_new, Error_naiv, label='Naive Interpolation Error')
-        axs[1, i].plot(xi_new, Error_lagrange, label='Lagrange Interpolation Error')
-        axs[1, i].plot(xi_new, Error_newton, label='Newton Interpolation Error')
-        #note that error for n= 25 is higher than n = 15; inaccuracy of float-arithmetic?
+        axs[1, i].plot(xi_new, Fehler_naiv, label='Naive Interpolation Fehler')
+        axs[1, i].plot(xi_new, Fehler_lagrange, label='Lagrange Interpolation Fehler')
+        axs[1, i].plot(xi_new, Fehler_newton, label='Newton Interpolation Fehler')
         axs[1, i].set_title(f'n={num_points}')
         axs[1, i].legend()
     
-        all_time  = [naiv_time, lagrange_time, newton_time]
-        if min (all_time) == naiv_time:
-            print ("Naiv interpolation used the least amount of time: {:.6f} seconds" .format(min(all_time)))
-        elif min (all_time) == lagrange_time:
-            print ("Lagrange interpolation used the least amount of time: {:.6f} seconds" .format(min(all_time)))
-        else:
-            print ("Newton interpolation used the least amount of time: {:.6f} seconds" .format(min(all_time)))
-        print ("\n")
+    all_time  = [naiv_time/3, lagrange_time/3, newton_time/3]
+    if min (all_time) == naiv_time/3:
+        print ("Naiv inter used the least amount of time: {:.6f}" .format(min(all_time)))
+    elif min (all_time) == lagrange_time/3:
+        print ("Lagrange inter used the least amount of time: {:.6f}" .format(min(all_time)))
+    else:
+        print ("Newton method used the least amount of time: {:.6f}" .format(min(all_time)))
     plt.show()
-    while(True):
-        foo = input("Enter any character to exit")
-        if (foo != ""):
-            return
-    
+    while True:
+        foo = input("Enter any key to exit")
+        return
 main()

@@ -131,7 +131,7 @@ def main():
 
     #@warisa: take it as a comment,stupid.
     # This is so beautiful guys ToT. Lmao, FOR REAL WITH ALL THESE COMMENTS AND PPL STILL SAY I USE CHATGPT. 
-#do you know that fractals can have non-integer dimension values? why do drugs when you can look at mandelbrotmengen
+#do you know that fractals can have non-integer dimension values? why do substances when you can look at mandelbrotmengen
 
 
 
